@@ -94,6 +94,7 @@ HashTable::~HashTable() {
  */
 unsigned int HashTable::hash(int key) {
     // FIXME (4): Implement logic to calculate a hash value
+	//I chose to use 25 but almost any vlaue will work
 	int hashVal = 25;
 	int hash = key % hashVal;
 	return hash;
@@ -108,6 +109,7 @@ unsigned int HashTable::hash(int key) {
  */
 void HashTable::Insert(Bid bid) {
     // FIXME (5): Implement logic to insert a bid
+	//used string to int to get the int value of bidId
 	int id = stoi(bid.bidId);
 	int key = hash(id);
 	Bid currentNode;
@@ -122,7 +124,7 @@ void HashTable::Insert(Bid bid) {
 void HashTable::PrintAll() {
     // FIXME (6): Implement logic to print all bids
 	for(int i = 0; i < bids.size(); ++i){
-		if(bids.at(i).size() != 0){
+		if(bids.at(i).size() > 0){
 			for(auto j : bids.at(i))
 				cout << "Key "<<  i << ": | "<<j.bidId<< " | "<<  j.title << " | "<<j.amount << " | " << j.fund << endl;
 		}
@@ -138,16 +140,16 @@ void HashTable::Remove(string bidId) {
     // FIXME (7): Implement logic to remove a bid
 	int hashVal = stoi(bidId);
 	int key = hash(hashVal);
-	if(bids.at(key).size() != 0){
+	if(bids.at(key).size() > 0){
 		//create an iterator so we can iterate though the sublist.
 		list<Bid>::const_iterator k;
-			for(k = bids.at(key).begin(); k != bids.at(key).end(); k++ ){
-				if(k->bidId.compare(bidId) == 0){
-					//use the built in erase fucntion to get rid of the object
-					k = bids.at(key).erase(k);
+		for(k = bids.at(key).begin(); k != bids.at(key).end(); k++ ){
+			if(k->bidId.compare(bidId) == 0){
+				//use the built in erase fucntion to get rid of the object
+				k = bids.at(key).erase(k);
 
-				}
 			}
+		}
 
 	}
 }
@@ -162,7 +164,7 @@ Bid HashTable::Search(string bidId) {
     // FIXME (8): Implement logic to search for and return a bid
     int hashVal = stoi(bidId);
     int key = hash(hashVal);
-    if(bids.at(key).size() != 0){
+    if(bids.at(key).size() > 0){
     		//create an iterator so we can iterate though the sublist.
     		list<Bid>::const_iterator k;
     			for(k = bids.at(key).begin(); k != bids.at(key).end(); k++ ){
@@ -263,7 +265,7 @@ int main(int argc, char* argv[]) {
         bidKey = argv[2];
         break;
     default:
-        csvPath = "C:\\Users\\John\\Documents\\lab3-2\\eBid_Monthly_Sales_Dec_2016.csv";
+        csvPath = "eBid_Monthly_Sales_Dec_2016.csv";
         bidKey = "97991";
     }
 
